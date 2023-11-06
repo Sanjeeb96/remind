@@ -37,6 +37,7 @@ export const Navigation = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const search = useSearch();
   const params = useParams();
+  const router = useRouter();
 
   const create = useMutation(api.documents.create);
 
@@ -127,7 +128,9 @@ export const Navigation = () => {
   };
 
   const handleCreate = () => {
-    const promise = create({ title: "Untitled" });
+    const promise = create({ title: "Untitled" }).then((documentId) =>
+      router.push(`/documents/${documentId}`)
+    );
 
     toast.promise(promise, {
       loading: "Creating a new note...",
